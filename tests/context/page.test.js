@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { useAuth } from '../../context/Auth';
-import UserLoginPage from '../../app/user/page';
+import UserLoginPage from '../../app/context/page';
 import React from 'react';
 
 import '@testing-library/jest-dom';
