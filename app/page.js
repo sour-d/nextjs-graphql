@@ -1,26 +1,48 @@
-import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+'use client'
 
-export default async function Home() {
-  const client = new ApolloClient({
-    uri: 'http://127.0.0.1:9000/graphql',
-    cache: new InMemoryCache(),
-  });
-  const posts = await client
-    .query({
-      query: gql`
-      query {
-        posts {
-          id
-        }
-      }
-    `,
-    }).then(({data: {posts}}) => posts);
+import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+import React from 'react';
+
+export const dynamic = 'force-dynamic'
+
+export default function Home() {
+  const [posts, setPosts] = React.useState([]);
+
+  React.useEffect(() => {
+    const client = new ApolloClient({
+      uri: '/graphql',
+      cache: new InMemoryCache(),
+    });
+    client
+      .query({
+        query: gql`
+          query {
+            posts {
+              id
+              userName
+              type
+              content
+            }
+          }
+        `}).then(({ data: { posts } }) => setPosts(posts));
+  }, []);
   
   return (
     <div>
       <h1>Post details: </h1>
+      <br />
       <div>
-        {posts?.map((obj) => (<p key={obj.id}>{obj.id}</p>))}
+        {posts?.map((obj) => (
+          <div key={obj.id}>
+            <div>
+              <p>{obj.id}</p>
+              <p>{obj.userName}</p>
+              <p>{obj.type}</p>
+              <p>{obj.content}</p>
+            </div>
+            <br />
+          </ div>
+        ))}
       </div>
     </div>
   );
