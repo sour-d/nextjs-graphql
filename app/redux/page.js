@@ -11,9 +11,6 @@ const UserLoginPage = () => {
   const userNameRef = useRef(null);
   const passwordRef = useRef(null);
 
-  console.log('isAuthenicated', isAuthenicated);
-  console.log('userName', userName);
-
   return (
     <div>
       {isAuthenicated ? (

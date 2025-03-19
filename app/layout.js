@@ -3,8 +3,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/Auth";
-import { Provider } from "react-redux";
+import { Provider as ReduxProvider } from "react-redux";
 import { store } from "@/redux/store";
+import { Provider as ChakraUIProvider } from "@/components/ui/provider"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,15 +19,17 @@ const geistMono = Geist_Mono({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Provider store={store}>
+        <ReduxProvider store={store}>
           <AuthProvider>
-            {children}
+            <ChakraUIProvider>
+              {children}
+            </ChakraUIProvider>
           </AuthProvider>
-        </Provider>
+        </ReduxProvider>
       </body>
     </html>
   );
