@@ -20,13 +20,16 @@ const user = createSlice({
     changeUserInfo: (state, action) => {
       state.userName = action.payload.userName;
       state.password = action.payload.password;
-    }
+    },
+    logout: (state) => {
+      state.isAuthenticated = false;
+    },
   },
 });
 
 const selectIsAuthenticated = (state) => state.user.isAuthenticated;
 const selectUserName = (state) => state.user.userName;
 
-export const { authenticate, changeUserInfo } = user.actions;
+export const { authenticate, changeUserInfo, logout } = user.actions;
 export { selectIsAuthenticated, selectUserName };
 export default user.reducer;

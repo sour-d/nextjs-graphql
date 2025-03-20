@@ -1,6 +1,8 @@
 "use client";
 
-import { authenticate, selectIsAuthenticated, selectUserName } from "@/redux/slices/user";
+import TextInput from "@/components/TextInput";
+import { authenticate, logout, selectIsAuthenticated, selectUserName } from "@/redux/slices/user";
+import { Button, Heading, Stack } from "@chakra-ui/react";
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -14,49 +16,33 @@ const UserLoginPage = () => {
   return (
     <div>
       {isAuthenicated ? (
-        <>
-          <p>Welcome {userName}</p>
-          <button onClick={() => setUserName('')} className="bg-red-700 p-2">Logout</button>
-        </>
+        <Stack>
+          <Heading>Welcome {userName}</Heading>
+          <Button
+            onClick={() => userInfoDispatch(logout())}
+            colorPalette="red"
+          >
+            Logout
+          </Button>
+        </Stack>
       ) : (
-        <>
-          <p>Please login</p>
-          <input
-            type="text"
-            placeholder="user name"
-            style={{
-              padding: '5px',
-              margin: '5px',
-              width: '200px',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-            }}
-              ref={userNameRef}
-          />
-          <input
-            type="text"
-            placeholder="password"
-            style={{
-              padding: '5px',
-              margin: '5px',
-              width: '200px',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-            }}
-            ref={passwordRef}
-          />
-          <button
-            onClick={() =>
-                userInfoDispatch(authenticate({
-                userName: userNameRef.current.value,
-                password: passwordRef.current.value
-              }))
-            }
-            className="bg-green-700 p-2"
+        <Stack>
+            <Heading>Please login</Heading>
+            <Text>Enter the dummy Username and password</Text>
+          <Stack spacing={4} width={400} padding='20px 0'>
+            <TextInput placeholder="Username" ref={userNameRef} />
+            <TextInput placeholder="Password" ref={passwordRef} />
+          </Stack>
+          <Button
+            onClick={() => userInfoDispatch(authenticate({
+              userName: userNameRef.current.value,
+              password: passwordRef.current.value
+            }))}
+            colorPalette="green"
           >
             Login
-          </button>
-        </>
+          </Button>
+        </Stack>
       )}
     </div>
   );
